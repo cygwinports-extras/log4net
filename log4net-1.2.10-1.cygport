@@ -1,0 +1,34 @@
+inherit nant
+
+DESCRIPTION="Apache Logging Services for .NET"
+HOMEPAGE="http://logging.apache.org/log4net/"
+SRC_URI="http://archive.apache.org/dist/incubator/log4net/${PV}/incubating-log4net-${PV}.zip"
+
+PKG_NAMES="mono-log4net1.2"
+mono_log4net1_2_CONTENTS="usr/"
+
+src_compile() {
+	lndirs
+	cd ${B}
+	ln -sf ${MONO_SNK} log4net.snk
+	cygnant
+
+	cat > log4net.pc <<_EOF
+prefix=\${pcfiledir}/../..
+exec_prefix=\${prefix}
+libdir=\${prefix}/lib
+
+Name: Log4Net
+Description: Apache Logging Services for .NET
+Version: ${PV}
+Libs: -r:\${libdir}/mono/log4net/log4net.dll
+_EOF
+}
+
+src_install() {
+	cd ${B}
+	gacinto log4net
+	dogac bin/mono/2.0/release/log4net.dll
+	mono_create_policy log4net.dll "1.2.*" ${PV}.0 ${MONO_SNK}
+	dopkgconfig log4net.pc
+}

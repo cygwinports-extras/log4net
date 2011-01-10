@@ -1,0 +1,7 @@
+category: DotNET
+requires: mono
+external-source: log4net
+sdesc: "Apache Logging Services for .NET"
+ldesc: "log4net is a tool to help the programmer output log statements 
+to a variety of output targets. log4net is a port of the excellent log4j 
+framework to the .NET runtime."
